@@ -30,11 +30,11 @@ export class TimeLocalizerPipe implements PipeTransform {
         }
     }
 
-    private formatTime(timeMeasure: TimeMeasure, time: string | number, format: string): string {
+    private formatTime(timeMeasure: TimeMeasure, time: string | number, format: string, locale?: string): string {
         try {
-            return DateTime.fromObject({[timeMeasure]: +time}).setLocale(this.locale).toFormat(format);
+            return DateTime.fromObject({[timeMeasure]: +time}).setLocale(locale || this.locale).toFormat(format);
         } catch {
-            throw new Error(`Cannot format provided time - ${time} to locale - ${this.locale}`);
+            throw new Error(`Cannot format provided time - ${time} to locale - ${locale || this.locale}`);
         }
     }
 }

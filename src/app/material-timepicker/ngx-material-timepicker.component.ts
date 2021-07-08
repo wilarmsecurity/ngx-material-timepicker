@@ -33,6 +33,7 @@ export class NgxMaterialTimepickerComponent implements TimepickerRef {
     @Input() defaultTime: string;
     @Input() timepickerClass: string;
     @Input() theme: NgxMaterialTimepickerTheme;
+    @Input() locale: string;
     /**
      * @deprecated Since version 5.1.1. Will be deleted on version 6.0.0. Use @Input() theme instead
      */
@@ -131,7 +132,8 @@ export class NgxMaterialTimepickerComponent implements TimepickerRef {
             hoursOnly: this.hoursOnly,
             theme: this.theme || this._ngxMaterialTimepickerTheme,
             timepickerClass: this.timepickerClass,
-            inputElement: this.inputElement
+            inputElement: this.inputElement,
+            locale: this.locale,
         });
         this.opened.next();
         this.subscribeToEvents();

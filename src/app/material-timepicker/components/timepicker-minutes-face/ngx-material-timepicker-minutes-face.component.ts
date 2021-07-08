@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ClockFaceTime } from '../../models/clock-face-time.interface';
 import { TimeUnit } from '../../models/time-unit.enum';
 import { TimePeriod } from '../../models/time-period.enum';
 import { DateTime } from 'luxon';
 import { disableMinutes, getMinutes } from '../../utils/timepicker-time.utils';
+import { TIME_LOCALE } from '../../tokens/time-locale.token';
 
 
 @Component({
@@ -24,6 +25,14 @@ export class NgxMaterialTimepickerMinutesFaceComponent implements OnChanges {
     @Input() minutesGap: number;
 
     @Output() minuteChange = new EventEmitter<ClockFaceTime>();
+    private _locale: string;
+    @Input() set locale(value: string) {
+        this._locale = value;
+    }
+    get locale() { return this._locale || this.timeLocale; }
+
+    constructor(@Inject(TIME_LOCALE) private timeLocale: string) {
+    }
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['period'] && changes['period'].currentValue) {
