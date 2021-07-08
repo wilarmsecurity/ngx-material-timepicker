@@ -22,7 +22,7 @@ export class TimeAdapter {
     static formatTime(time: string, opts: TimeOptions): string {
         const {format} = opts;
 
-        return TimeAdapter.parseTime(time, opts).setLocale(TimeAdapter.DEFAULT_LOCALE)
+        return TimeAdapter.parseTime(time, opts).setLocale(opts.locale || TimeAdapter.DEFAULT_LOCALE)
             .toLocaleString({
                 ...DateTime.TIME_SIMPLE,
                 hour12: format !== 24,

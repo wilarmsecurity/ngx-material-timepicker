@@ -65,13 +65,13 @@ export class NgxMaterialTimepickerService {
         }
     }
 
-    getFullTime(format: number): string {
+    getFullTime(format: number, locale?: string): string {
         const hour = this.hourSubject.getValue().time;
         const minute = this.minuteSubject.getValue().time;
         const period = format === 12 ? this.periodSubject.getValue() : '';
         const time = `${hour}:${minute} ${period}`.trim();
 
-        return TimeAdapter.formatTime(time, {format});
+        return TimeAdapter.formatTime(time, { format: format, locale: locale});
     }
 
     private setDefaultTime(time: string, format: number) {

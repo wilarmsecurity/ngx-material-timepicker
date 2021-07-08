@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgxMaterialTimepickerHoursFace } from '../timepicker-hours-face/ngx-material-timepicker-hours-face';
 import { TimePeriod } from '../../models/time-period.enum';
 import { disableHours } from '../../utils/timepicker-time.utils';
+import { TIME_LOCALE } from '../../tokens/time-locale.token';
 
 
 @Component({
@@ -11,10 +12,14 @@ import { disableHours } from '../../utils/timepicker-time.utils';
 })
 
 export class NgxMaterialTimepicker12HoursFaceComponent extends NgxMaterialTimepickerHoursFace implements OnChanges {
-
+    private _locale: string;
     @Input() period: TimePeriod;
+    @Input() set locale(value: string) {
+        this._locale = value;
+    }
+    get locale() { return this._locale || this.timeLocale; }
 
-    constructor() {
+    constructor(@Inject(TIME_LOCALE) private timeLocale: string) {
         super(12);
     }
 

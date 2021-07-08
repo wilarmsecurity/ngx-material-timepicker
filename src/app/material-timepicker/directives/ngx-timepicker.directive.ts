@@ -115,6 +115,9 @@ export class TimepickerDirective implements ControlValueAccessor, OnDestroy, OnC
 
     @Input() disabled: boolean;
     @Input() disableClick: boolean;
+    private _locale: string;
+    @Input() set locale(value: string) { this._locale = value; }
+    get locale() { return this._locale || this.timeLocale; }
 
     private timepickerSubscriptions: Subscription[] = [];
     private previousFormat: number;
@@ -126,7 +129,7 @@ export class TimepickerDirective implements ControlValueAccessor, OnDestroy, OnC
     }
 
     constructor(private elementRef: ElementRef,
-                @Inject(TIME_LOCALE) private locale: string) {
+                @Inject(TIME_LOCALE) private timeLocale: string) {
     }
 
     get element(): any {

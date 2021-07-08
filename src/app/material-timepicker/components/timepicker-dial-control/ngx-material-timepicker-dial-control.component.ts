@@ -1,9 +1,10 @@
 /* tslint:disable:triple-equals */
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { ClockFaceTime } from '../../models/clock-face-time.interface';
 import { TimeUnit } from '../../models/time-unit.enum';
 import { isDigit } from '../../utils/timepicker.utils';
 import { TimeParserPipe } from '../../pipes/time-parser.pipe';
+import { TIME_LOCALE } from '../../tokens/time-locale.token';
 
 @Component({
     selector: 'ngx-material-timepicker-dial-control',
@@ -26,8 +27,12 @@ export class NgxMaterialTimepickerDialControlComponent {
     @Output() timeChanged = new EventEmitter<ClockFaceTime>();
     @Output() focused = new EventEmitter<null>();
     @Output() unfocused = new EventEmitter<null>();
+    private _locale: string;
+    @Input() set locale(value: string) { this._locale = value; }
+    get locale() { return this._locale || this.timeLocale; }
 
-    constructor(private timeParserPipe: TimeParserPipe) {
+    constructor(private timeParserPipe: TimeParserPipe,
+        @Inject(TIME_LOCALE) public timeLocale: string) {
     }
 
     private get selectedTime(): ClockFaceTime {
@@ -65,7 +70,7 @@ export class NgxMaterialTimepickerDialControlComponent {
     }
 
     onModelChange(value: string): void {
-        this.time = this.timeParserPipe.transform(value, this.timeUnit).toString();
+        this.time = this.timeParserPipe.transform(value, this.timeUnit, this.locale).toString();
     }
 
     private changeTimeByArrow(keyCode: number): void {

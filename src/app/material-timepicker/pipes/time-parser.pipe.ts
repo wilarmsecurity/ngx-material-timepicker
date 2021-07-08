@@ -11,13 +11,10 @@ type TimeMeasure = 'hour' | 'minute';
 @Injectable()
 export class TimeParserPipe implements PipeTransform {
 
-    private readonly numberingSystem: NumberingSystem;
-
-    constructor(@Inject(TIME_LOCALE) private locale: string) {
-        this.numberingSystem = DateTime.local().setLocale(this.locale).resolvedLocaleOpts().numberingSystem as NumberingSystem;
+    constructor(@Inject(TIME_LOCALE) private timeLocale: string) {
     }
 
-    transform(time: string | number, timeUnit = TimeUnit.HOUR): number | string {
+    transform(time: string | number, timeUnit = TimeUnit.HOUR, locale:string = null): number | string {
         if (time == null || time === '') {
             return '';
         }
@@ -34,8 +31,9 @@ export class TimeParserPipe implements PipeTransform {
 
     }
 
-    private parseTime(time: string | number, format: string, timeMeasure: TimeMeasure): number {
-        const parsedTime = DateTime.fromFormat(String(time), format, {numberingSystem: this.numberingSystem})[timeMeasure];
+    private parseTime(time: string | number, format: string, timeMeasure: TimeMeasure, locale: string = null): number {
+        const numberingSystem = DateTime.local().setLocale(locale || this.timeLocale).resolvedLocaleOpts().numberingSystem as NumberingSystem;
+        const parsedTime = DateTime.fromFormat(String(time), format, {numberingSystem: numberingSystem})[timeMeasure];
 
         if (!isNaN(parsedTime)) {
             return parsedTime;

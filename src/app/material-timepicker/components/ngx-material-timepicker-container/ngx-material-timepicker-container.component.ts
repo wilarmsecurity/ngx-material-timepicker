@@ -76,11 +76,15 @@ export class NgxMaterialTimepickerContainerComponent implements OnInit, OnDestro
         this.setDefaultTime(time);
     }
 
+    private _locale: string;
+    @Input() set locale(value: string) { this._locale = value; }
+    get locale() { return this._locale || this.timeLocale; }
+
     private unsubscribe = new Subject();
 
     constructor(private timepickerService: NgxMaterialTimepickerService,
                 private eventService: NgxMaterialTimepickerEventService,
-                @Inject(TIME_LOCALE) private locale: string) {
+                @Inject(TIME_LOCALE) public timeLocale: string) {
     }
 
     @HostListener('keydown', ['$event'])
@@ -135,7 +139,7 @@ export class NgxMaterialTimepickerContainerComponent implements OnInit, OnDestro
     }
 
     setTime(): void {
-        this.timepickerBaseRef.timeSet.next(this.timepickerService.getFullTime(this.format));
+        this.timepickerBaseRef.timeSet.next(this.timepickerService.getFullTime(this.format, this.locale));
         this.close();
     }
 
@@ -175,7 +179,7 @@ export class NgxMaterialTimepickerContainerComponent implements OnInit, OnDestro
     }
 
     private onTimeChange(): void {
-        const time = TimeAdapter.toLocaleTimeString(this.timepickerService.getFullTime(this.format), {
+        const time = TimeAdapter.toLocaleTimeString(this.timepickerService.getFullTime(this.format, this.locale), {
             locale: this.locale,
             format: this.format
         });

@@ -1,6 +1,7 @@
-import { AfterContentInit, ChangeDetectionStrategy, Component } from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, Component, Inject, Input } from '@angular/core';
 import { NgxMaterialTimepickerHoursFace } from '../timepicker-hours-face/ngx-material-timepicker-hours-face';
 import { disableHours } from '../../utils/timepicker-time.utils';
+import { TIME_LOCALE } from '../../tokens/time-locale.token';
 
 @Component({
     selector: 'ngx-material-timepicker-24-hours-face',
@@ -9,8 +10,13 @@ import { disableHours } from '../../utils/timepicker-time.utils';
 })
 
 export class NgxMaterialTimepicker24HoursFaceComponent extends NgxMaterialTimepickerHoursFace implements AfterContentInit {
+    private _locale: string;
+    @Input() set locale(value: string) {
+        this._locale = value;
+    }
+    get locale() { return this._locale || this.timeLocale; }
 
-    constructor() {
+    constructor(@Inject(TIME_LOCALE) private timeLocale: string) {
         super(24);
     }
 

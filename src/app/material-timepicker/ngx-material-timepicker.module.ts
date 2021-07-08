@@ -105,7 +105,7 @@ export class NgxMaterialTimepickerModule {
         return {
             ngModule: NgxMaterialTimepickerModule,
             providers: [
-                {provide: TIME_LOCALE, useValue: locale}
+                { provide: TIME_LOCALE, useValue: locale }
             ]
         };
     }

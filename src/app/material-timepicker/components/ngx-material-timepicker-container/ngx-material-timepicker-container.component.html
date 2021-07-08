@@ -22,6 +22,7 @@
                                               (timeUnitChanged)="changeTimeUnit($event)"
                                               (hourChanged)="onHourChange($event)"
                                               (minuteChanged)="onMinuteChange($event)"
+                                              [locale]="locale"
                 ></ngx-material-timepicker-dial>
             </header>
             <div class="timepicker__main-content">
@@ -33,6 +34,7 @@
                                                                [minTime]="minTime"
                                                                [maxTime]="maxTime"
                                                                [format]="format"
+                                                               [locale]="locale"
                                                                (hourSelected)="onHourSelected($event)"></ngx-material-timepicker-24-hours-face>
                         <ng-template #ampmHours>
                             <ngx-material-timepicker-12-hours-face
@@ -41,6 +43,7 @@
                                 [period]="selectedPeriod | async"
                                 [minTime]="minTime"
                                 [maxTime]="maxTime"
+                                [locale]="locale"
                                 (hourSelected)="onHourSelected($event)"></ngx-material-timepicker-12-hours-face>
                         </ng-template>
                     </div>
@@ -52,6 +55,7 @@
                                                           [format]="format"
                                                           [period]="selectedPeriod | async"
                                                           [minutesGap]="minutesGap"
+                                                          [locale]="locale"
                                                           (minuteChange)="onMinuteChange($event)"></ngx-material-timepicker-minutes-face>
                 </div>
                 <div class="timepicker__actions">

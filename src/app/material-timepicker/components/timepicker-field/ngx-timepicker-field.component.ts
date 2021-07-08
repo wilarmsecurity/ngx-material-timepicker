@@ -43,6 +43,9 @@ export class NgxTimepickerFieldComponent implements OnInit, OnDestroy, ControlVa
     @Input() controlOnly: boolean;
     @Input() cancelBtnTmpl: TemplateRef<Node>;
     @Input() confirmBtnTmpl: TemplateRef<Node>;
+    private _locale: string;
+    @Input() set locale(value: string) { this._locale = value; }
+    get locale() { return this._locale || this.timeLocale; }
 
     @Input()
     set format(value: number) {
@@ -91,7 +94,7 @@ export class NgxTimepickerFieldComponent implements OnInit, OnDestroy, ControlVa
     }
 
     constructor(private timepickerService: NgxMaterialTimepickerService,
-                @Inject(TIME_LOCALE) private locale: string) {
+                @Inject(TIME_LOCALE) private timeLocale: string) {
     }
 
     ngOnInit() {
@@ -148,7 +151,7 @@ export class NgxTimepickerFieldComponent implements OnInit, OnDestroy, ControlVa
     }
 
     private changeTime(): void {
-        const time = this.timepickerService.getFullTime(this._format);
+        const time = this.timepickerService.getFullTime(this._format, this.locale);
         this.timepickerTime = time;
 
         this.emitLocalTimeChange(time);
